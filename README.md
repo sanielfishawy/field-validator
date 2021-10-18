@@ -34,6 +34,7 @@ The result is an object of form
 }
 
 Where errors is a dictionary indexed by the validation error type and returns the value that was validated against (except in the case of the custom validator, in which it contains the error message).
+```
 
 ## Examples
 
@@ -62,7 +63,7 @@ if ( validationResult ) {
 }
 ```
 
-The user may not understand what the validatio result means, so it may be more userfriendly to create the validator with:
+The user may not understand what the validation result means, so it may be more userfriendly to create the validator with:
 
 ```
 let nameValidator = new Validator({name:'name',regex:/^[a-zA-Z][a-zA-Z0-9_]+$/,min:6,max:15,required:true,message:'The name must be between 6 and 15 characters long, start with a leter, and only contain letters, numbers, and _'})
