@@ -40,13 +40,13 @@ Where errors is a dictionary indexed by the validation error type and returns th
 
 Suppose you are querying the user for a value for a name, which must be between 6 and 15 chars long, start with a letter, and only include letters, numbers, and _, i.e. match the regular expression `/^[a-zA-Z][a-zA-Z0-9_]+$/`, you can create the validator as
 
-```
+```js
 let nameValidator = new Validator({name:'name',regex:/^[a-zA-Z][a-zA-Z0-9_]+$/,min:6,max:15,required:true})
 
 let input = getuserInput();
--- Assume input is too short and doesn't match the regex, e.g. 9/13
+// Assume input is too short and doesn't match the regex, e.g. 9/13
 
-let valitionResult = nameValidator.validate('9/13');
+let validationResult = nameValidator.validate('9/13');
 if ( validationResult ) {
 
   // Now validation result will contain errors that has two keys: 'min' and 'custom'
@@ -65,7 +65,7 @@ if ( validationResult ) {
 
 The user may not understand what the validation result means, so it may be more userfriendly to create the validator with:
 
-```
+```js
 let nameValidator = new Validator({name:'name',regex:/^[a-zA-Z][a-zA-Z0-9_]+$/,min:6,max:15,required:true,message:'The name must be between 6 and 15 characters long, start with a leter, and only contain letters, numbers, and _'})
 
 let {errorMessage} = nameValidator.validate(input);
@@ -76,7 +76,7 @@ console.log('error message=',errorMessage)
 
 You could also provide a custom validator, for example, one that enforces that the input have at least one capital letter, one number, and one special character and starts with a letter (you could do this with regex):
 
-```
+```js
 let passwordValidation = (value) => {
   if ( !/[a-z,A-Z]/.test(value[0]) || !/[A-Z]/.test(value) || !/[0-9]/.test(value) || !/[*&^%$#@.,:;]/.test(value) )
     return 'must contain at least one capital letter, one number, and one special character and starts with a letter'
