@@ -32,7 +32,7 @@ function tests() {
     let validator;
     it('should validate that the input is a number for type number', () => {
       validator = new Validator({type:Types.number})
-      let result = validator.validate("string")
+      let result = validator.validate('string')
       expect(result).to.not.be.null;
       let violations = Object.keys(result.errors);
       expect(violations.length).to.be.eql(1);

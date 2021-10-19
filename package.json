@@ -1,15 +1,22 @@
 {
   "name": "validator",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A package used for validating input values",
   "main": "index.js",
-  "type": "module",
+  "type": "commonjs",
+  "exports": {
+    "require": "./index.js",
+    "import": "./index.mjs"
+  },
   "scripts": {
-    "test": "mocha test"
+    "test": "mocha test.mjs"
   },
   "author": "Farhad Farzaneh",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
     "chai": "^4.3.4"
+  },
+  "dependencies": {
+    "mocha": "^9.1.3"
   }
 }
