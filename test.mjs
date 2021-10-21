@@ -1,4 +1,5 @@
 import {expect} from 'chai';
+import { describe, it } from 'mocha';
 import {Validator,Types,Test as ValidationTest} from './lib/Validator.js'
 
 function tests() {
@@ -67,7 +68,6 @@ function tests() {
     it('should pass the requirement test', () => {
       let result = numValidator.validate(null);
       expect(result).to.not.be.null;
-      let m = result.errorMessage;
       let violations = Object.keys(result.errors);
       expect(violations.length).to.be.eql(1);
       expect(violations).to.include(ValidationTest.required);
@@ -124,6 +124,27 @@ function tests() {
       let {errorMessage} = result;
       expect(errorMessage).to.include('and');
     });
+  })
+  describe('Hex String validation',() => {
+    it('should understand hex strings',() => {
+      let validator = new Validator({type:Types.hexString})
+      expect(validator.validate('F')).to.be.null;
+      expect(validator.validate('3f')).to.be.null;
+      expect(validator.validate('3fcc')).to.be.null;
+      expect(validator.validate('022')).to.be.null;
+      expect(validator.validate('022g')).to.not.be.empty
+      expect(validator.validate('az')).to.to.not.be.empty
+    })
+    it('should support hex strings with other limitations',() => {
+      let validator = new Validator({type:Types.hexString,min:2,max:6})
+      expect(validator.validate('F')).to.not.be.empty;
+      expect(validator.validate('3f')).to.be.null;
+      expect(validator.validate('3fcc')).to.be.null;
+      expect(validator.validate('022')).to.be.null;
+      expect(validator.validate('022g')).to.not.be.empty;
+      expect(validator.validate('az')).to.not.be.empty;
+      expect(validator.validate('123ABCDE')).to.not.be.empty;
+    })
   })
   describe('Custom validation', () => {
     it('should support custom validator for numerical values', () => {
