@@ -169,6 +169,47 @@ function tests() {
       errorMessage = result.errorMessage;
       expect(errorMessage).to.eql('value must be >= 5 and must be an odd number')
     });
+  })
+  describe('Added types', () => {
+    before(() => {
+      Validator.addTypedef({
+        type: 'mac',
+        regex: /^([a-fA-F0-9]{2}:){1,}[a-fA-F0-9]{2}$/,
+        min:17,
+        max:17,
+        message:'must have standard MAC format of form nn:nn:nn:nn:nn:nn where nn is a hex pair'
+      })
+    });
+    it('should support dynamically added typedefs', () => {
+      let validator = new Validator({type:'mac'})
+      expect(validator.validate('something')).to.not.be.empty
+      expect(validator.validate('12:13')).to.not.be.empty
+      expect(validator.validate('12:13:dd')).to.not.be.empty
+      expect(validator.validate('12:13:dd:ee:ff')).to.not.be.empty
+      expect(validator.validate('12:13:dd:ee:ff:1g')).to.not.be.empty
+      expect(validator.validate('12:13:dd:ee:ff:10:')).to.not.be.empty
+      expect(validator.validate('12:13:dd:ee:ff:10')).to.be.null
+    });
+    it('should disallow overloading native types', () => {
+      expect(() => {
+        Validator.addTypedef({
+          type: 'string',
+          regex: /^([a-fA-F0-9]{2}:){5}[a-fA-F0-9]{2}$/,
+          min:17,
+          max:17,
+          message:'must have standard MAC format of form nn:nn:nn:nn:nn:nn where nn is a hex pair'
+        })
+
+      }).to.throw(Error);
+    });
+    it('should allow overriding typedef params at realtime', () => {
+      let validator = new Validator({type:'mac',min:8,max:8})
+      expect(validator.validate('12:13:dd:ee:ff:10')).to.not.be.empty
+      expect(validator.validate('12:13:gg')).to.not.be.empty
+      expect(validator.validate('12:13:dd:ee:ff:10')).to.not.be.empty
+      expect(validator.validate('12:13:ff')).to.be.null
+
+    });
   });
 }
 
