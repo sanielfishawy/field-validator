@@ -155,6 +155,16 @@ function tests() {
       expect(result).to.be.null
 
     });
+    it('should support limiting value to allowed function', () => {
+      let validator = new Validator({type:Types.string,allowed:() => ['one','two','three']})
+      let result = validator.validate('ONE')
+      expect(result.errors[ValidationTest.allowed]).to.not.be.null;
+      result = validator.validate('one')
+      expect(result).to.be.null
+      result = validator.validate('two')
+      expect(result).to.be.null
+
+    });
   })
   describe('Custom validation', () => {
     it('should support custom validator for numerical values', () => {
