@@ -165,6 +165,13 @@ function tests() {
       expect(result).to.be.null
 
     });
+    it('should only consider allowed if the value is not empty', () => {
+      let validator = new Validator({type:Types.string,allowed:() => ['one','two','three']})
+      let result = validator.validate('')
+      expect(result).to.be.null
+      result = validator.validate(null)
+      expect(result).to.be.null
+    });
   })
   describe('Custom validation', () => {
     it('should support custom validator for numerical values', () => {
