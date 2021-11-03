@@ -1,6 +1,6 @@
 {
   "name": "validator",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "A package used for validating input values",
   "main": "index.js",
   "type": "commonjs",
