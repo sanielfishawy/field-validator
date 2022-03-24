@@ -3,11 +3,12 @@
 This is a simple package for validating values (typically input by the user).
 
 ## Installation
-`npm install validator`
+`npm install field-validator`
 
 ## Usage
 After importing the validator, you can create a validator instance using
 ```
+const Validator = require('field-validator')
 let validator = new Validator(params);
 let results = validator.validate(value);
 ```
